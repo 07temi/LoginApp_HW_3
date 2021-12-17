@@ -15,11 +15,8 @@ class WelcomeViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        welcomeMessageLabel.text = welcomeMessage
+        welcomeMessageLabel.text = "Welcome \(welcomeMessage ?? "")"
         welcomeMessageLabel.sizeToFit()
     }
     
-    @IBAction func logoutButtonPressed() {
-        dismiss(animated: true)
-    }
 }

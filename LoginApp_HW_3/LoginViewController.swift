@@ -7,22 +7,18 @@
 
 import UIKit
 
-class ViewController: UIViewController, UITextFieldDelegate {
-
-    @IBOutlet weak var usernameTextField: UITextField!
-    @IBOutlet weak var passwordTextField: UITextField!
-    
+class LoginViewController: UIViewController, UITextFieldDelegate {
     
     @IBOutlet weak var loginButton: UIButton!
+    
     @IBOutlet weak var forgotUsernameButton: UIButton!
     @IBOutlet weak var forgotPasswordButton: UIButton!
     
+    @IBOutlet weak var usernameTextField: UITextField!
+    @IBOutlet weak var passwordTextField: UITextField!
+    
     let userName = "user"
     let userPassword = "user"
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-    }
 
 // MARK: - LoginAction
     
@@ -36,24 +32,21 @@ class ViewController: UIViewController, UITextFieldDelegate {
             return
         }
         
-        if passwordTextField.text == userName {
-            if passwordTextField.text == userPassword {
-                performSegue(withIdentifier: "segueWelcomeViewController", sender: self)
-            }
+        if passwordTextField.text == userName , passwordTextField.text == userPassword {
+            performSegue(withIdentifier: "segueWelcomeViewController", sender: self)
         } else {
             showMessage(title: "Login faild", message: "Incorrect username or password")
+            passwordTextField.text = nil
         }
     }
   
 // MARK: - ForgotButtonsMessages
     
     @IBAction func forgotButton(_ sender: UIButton) {
-        switch sender {
-        case forgotPasswordButton:
-            showMessage(title: "Reminder", message: "Your password is: \(userPassword)")
-        default:
-            showMessage(title: "Reminder", message: "Your username is: \(userName)")
-        }
+        
+        sender.tag == 0
+        ? showMessage(title: "Reminder", message: "Your password is: \(userPassword)")
+        : showMessage(title: "Reminder", message: "Your username is: \(userName)")
     }
    
 // MARK: - Segue forward and back
@@ -61,7 +54,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         let settingsWelcomeViewController = segue.destination as! WelcomeViewController
         
-        settingsWelcomeViewController.welcomeMessage = "Welcome, \(userName)!"
+        settingsWelcomeViewController.welcomeMessage = userName
     }
     
     @IBAction func unwind(for segue:UIStoryboardSegue) {
@@ -72,17 +65,15 @@ class ViewController: UIViewController, UITextFieldDelegate {
 //MARK: - Keyboard hide and TextFields change tags
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        if touches.first != nil {
+        super.touchesBegan(touches, with: event)
             view.endEditing(true)
         }
-    }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         if let nextField = textField.superview?.viewWithTag(textField.tag + 1) as? UITextField {
             nextField.becomeFirstResponder()
         } else {
             loginButtonPressed()
-            textField.resignFirstResponder()
             return true;
         }
         return false
@@ -92,7 +83,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
 
 // MARK: - Extentions
 
-extension ViewController {
+extension LoginViewController {
     private func showMessage(title: String, message: String) {
         let message = UIAlertController(title: title, message: message, preferredStyle: .alert)
         let okButton = UIAlertAction(title: "OK", style: .default)
@@ -101,7 +92,3 @@ extension ViewController {
     }
 }
 
-//1. Со смещением элементов интерфейса от клавиатуры не смог разобраться.
-//  Почему то scrollview не фиксировался по размеру экрана констрейнтами
-//2. А для градиента пришлось бы проект пересобирать((
-//P.S. Mark-и писал для себя)
