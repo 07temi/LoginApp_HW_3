@@ -17,8 +17,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var usernameTextField: UITextField!
     @IBOutlet weak var passwordTextField: UITextField!
     
-    let userName = "user"
-    let userPassword = "user"
+    private let user = User.getUser()
 
 // MARK: - LoginAction
     
@@ -31,9 +30,9 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
             showMessage(title: "Error", message: "Enter password")
             return
         }
-        
-        if passwordTextField.text == userName , passwordTextField.text == userPassword {
-            performSegue(withIdentifier: "segueWelcomeViewController", sender: self)
+    
+        if usernameTextField.text == user.login , passwordTextField.text == user.password {
+            //performSegue(withIdentifier: "segueWelcomeViewController", sender: self)
         } else {
             showMessage(title: "Login faild", message: "Incorrect username or password")
             passwordTextField.text = nil
@@ -45,16 +44,32 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
     @IBAction func forgotButton(_ sender: UIButton) {
         
         sender.tag == 0
-        ? showMessage(title: "Reminder", message: "Your password is: \(userPassword)")
-        : showMessage(title: "Reminder", message: "Your username is: \(userName)")
+        ? showMessage(title: "Reminder", message: "Your password is: \(user.password)")
+        : showMessage(title: "Reminder", message: "Your username is: \(user.login)")
     }
    
 // MARK: - Segue forward and back
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        let settingsWelcomeViewController = segue.destination as! WelcomeViewController
-        
-        settingsWelcomeViewController.welcomeMessage = userName
+//        let settingsWelcomeViewController = segue.destination as! WelcomeViewController
+//        settingsWelcomeViewController.welcomeMessage = ("\(user.about.firstname) \(user.about.lastname)")
+        let tabBarController = segue.destination as! UITabBarController
+        let viewControllers = tabBarController.viewControllers
+        for viewController in viewControllers! {
+            if let welcomeViewController = viewController as? WelcomeViewController {
+                welcomeViewController.welcomeMessage = user.about.firstname
+                //any code for welcome
+            } else if let navigationViewController = viewController as? UINavigationController {
+                let personViewController = navigationViewController.topViewController as! PersonViewController
+                //исправить
+                
+                personViewController.personFirstame = user.about.firstname
+                personViewController.personLastname = user.about.lastname
+                personViewController.personAge = user.about.age
+                personViewController.personAbout = user.about.about
+//добавить контакты
+            }
+        }
     }
     
     @IBAction func unwind(for segue:UIStoryboardSegue) {
