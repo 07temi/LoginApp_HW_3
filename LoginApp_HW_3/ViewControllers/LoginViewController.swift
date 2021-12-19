@@ -36,9 +36,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
             return
         }
     
-        if usernameTextField.text == user.login , passwordTextField.text == user.password {
-            //performSegue(withIdentifier: "segueWelcomeViewController", sender: self)
-        } else {
+        if usernameTextField.text != user.login || passwordTextField.text != user.password {
             showMessage(title: "Login faild", message: "Incorrect username or password")
             passwordTextField.text = nil
         }
@@ -66,7 +64,8 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
             
             } else if let navigationViewController = viewController as? UINavigationController {
                 // не уверен что корректно тут задавать значения
-                // компилятор не против вроде)
+                // компилятор не то что бы против такого)
+                
                 navigationViewController.tabBarItem.title = user.about.firstname
                 navigationViewController.tabBarItem.image = .checkmark
                 let personViewController = navigationViewController.topViewController as! PersonViewController

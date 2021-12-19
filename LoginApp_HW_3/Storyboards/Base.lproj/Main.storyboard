@@ -233,7 +233,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="WeY-aZ-Nxh">
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="4ce1ea13-5c66-4f88-baed-9605af13f2d4" translatesAutoresizingMaskIntoConstraints="NO" id="WeY-aZ-Nxh">
                                 <rect key="frame" x="20" y="218" width="374" height="406"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="374" id="Fv3-gP-F85"/>
@@ -295,6 +295,7 @@
         </scene>
     </scenes>
     <resources>
+        <image name="4ce1ea13-5c66-4f88-baed-9605af13f2d4" width="320" height="426.66665649414062"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
