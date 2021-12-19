@@ -18,6 +18,11 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var passwordTextField: UITextField!
     
     private let user = User.getUser()
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+    }
 
 // MARK: - LoginAction
     
@@ -51,23 +56,27 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
 // MARK: - Segue forward and back
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-//        let settingsWelcomeViewController = segue.destination as! WelcomeViewController
-//        settingsWelcomeViewController.welcomeMessage = ("\(user.about.firstname) \(user.about.lastname)")
         let tabBarController = segue.destination as! UITabBarController
         let viewControllers = tabBarController.viewControllers
         for viewController in viewControllers! {
             if let welcomeViewController = viewController as? WelcomeViewController {
                 welcomeViewController.welcomeMessage = user.about.firstname
-                //any code for welcome
-            } else if let navigationViewController = viewController as? UINavigationController {
-                let personViewController = navigationViewController.topViewController as! PersonViewController
-                //исправить
                 
+                //any code for welcome
+            
+            } else if let navigationViewController = viewController as? UINavigationController {
+                // не уверен что корректно тут задавать значения
+                // компилятор не против вроде)
+                navigationViewController.tabBarItem.title = user.about.firstname
+                navigationViewController.tabBarItem.image = .checkmark
+                let personViewController = navigationViewController.topViewController as! PersonViewController
+    
                 personViewController.personFirstame = user.about.firstname
                 personViewController.personLastname = user.about.lastname
                 personViewController.personAge = user.about.age
                 personViewController.personAbout = user.about.about
-//добавить контакты
+                personViewController.contactType = user.about.contacts.type.rawValue
+                personViewController.contact = user.about.contacts.link
             }
         }
     }
